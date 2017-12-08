@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.CarMapper">
+	
+	
+	<sql id="findCar">
+		<if test="car.carnumber!=null and car.carnumber!=''">
+			<bind name="car.carnumber" value="'%'+car.carnumber+'%'" />
+			and u.carnumber like #{car.carnumber}
+		</if>
+		
+		<if test="car.cartype!=null and car.cartype!=''">
+			<bind name="car.cartype" value="'%'+car.cartype+'%'" />
+			and u.cartype like #{car.cartype}
+		</if>
+		<if test="car.color!=null and car.color!=''">
+			<bind name="car.color" value="'%'+car.color+'%'" />
+			and u.color like #{car.color}
+		</if>
+		<if test="car.price!=null and car.price!=''">
+			
+			and u.price=#{car.price}
+		</if>
+		<if test="car.rentprice!=null and car.rentprice!=''">
+			and u.rentprice=#{car.rentprice}
+		</if>
+		<if test="car.deposit!=null and car.deposit!=''">
+			and u.deposit=#{car.deposit}
+		</if>
+		<if test="car.isrenting!=null and car.isrenting!=''">
+			and u.isrenting=#{car.isrenting}
+		</if>
+		
+		
+	</sql>
+	<select id="findCar" resultType="com.bjsxt.pojo.Car">
+		select * from cars u 
+		<where>
+			
+			<include refid="findCar" />
+			
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

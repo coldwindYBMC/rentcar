@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.RenttableMapper">
+	
+	
+	
+<!-- 	<resultMap type="com.bjsxt.pojo.Renttable"  id="rsR">
+		<result column="rentid" property="rentid" />
+		<result column="imprest" property="imprest" />
+		<result column="shouldpaypric" property="shouldpaypric" />
+		<result column="price" property="price" />
+		<result column="begindate" property="begindate" />
+		<result column="shouldreturndate" property="shouldreturndate" />
+		<result column="returndate" property="returndate" />
+		<result column="rentflage" property="rentflage" />
+		<result column="custid" property="custid" />
+		<result column="carid" property="carid" />
+		<result column="username" property="username" />
+		<association property="customer"  javaType="com.bjsxt.pojo.Customer" >
+			<result column="customer.identity" property="identity" />
+			<result column="customer.custname" property="custname" />
+		</association>
+		
+	</resultMap>  -->
+	<sql id="findUser">
+		<if test="rentid!=null and rentid!=''">
+			<bind name="rentid" value="'%'+rentid+'%'" />
+			and u.rentid like #{rentid}
+		</if>
+		<if test="imprest!=null and imprest!=''">
+			<bind name="imprest" value="'%'+imprest+'%'" />
+			and u.imprest like #{imprest}
+		</if>
+		<if test="shouldpaypric!=null and shouldpaypric!=''">
+			
+			and u.shouldpaypric like #{shouldpaypric}
+		</if>
+		<if test="price!=null and price!=''">
+			<bind name="price" value="'%'+price+'%'" />
+			and u.price like #{price}
+		</if>
+		<if test="begindate!=null and begindate!=''">
+			
+			and u.begindate like #{begindate}
+		</if>
+		<if test="shouldreturndate!=null and shouldreturndate!=''">
+			
+			and u.shouldreturndate like #{shouldreturndate}
+		</if>
+		<if test="returndate!=null and returndate!=''">
+			
+			and u.returndate like #{returndate}
+		</if>
+		<if test="rentflage!=null ">
+			and u.rentflage=#{rentflage}
+		</if>
+		<if test="custid!=null and custid!=''">
+			and u.custid=#{custid}
+		</if>
+		<if test="carid!=null and carid!=''">
+			and u.carid=#{carid}
+		</if>
+		<if test="username!=null and username!=''">
+			and u.username like  #{username}
+		</if>
+	</sql>
+	<select id="findRenttable" resultType="com.bjsxt.pojo.Renttable" >  <!-- resultMap="renttableResult" resultMap="rsR" -->
+		<!-- select u.rentid,u.imprest,u.shouldpaypric,u.price,u.begindate,u.shouldreturndate,u.returndate,u.rentflage, u.custid,u.carid,u.username, r.identity,r.custname from renttable u left join customers r on r.identity=u.custid -->
+	
+		<!-- select u.rentid,u.imprest,u.shouldpaypric,u.price,u.begindate,u.shouldreturndate,u.returndate,u.rentflage, u.custid,u.carid,u.username, r.identity as 'customer.identity',r.custname as 'customer.custname' from renttable u left join customers r on r.identity=u.custid  -->
+	select u.rentid,u.imprest,u.shouldpaypric,u.price,u.begindate,u.shouldreturndate,u.returndate,u.rentflage, 
+		u.custid,u.carid,u.username, r.identity  ,r.custname  from renttable u left join customers r on r.identity=u.custid
+		<where>
+			<include refid="findUser" />
+		</where> 
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

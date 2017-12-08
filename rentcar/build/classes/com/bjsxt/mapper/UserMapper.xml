@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.UserMapper">
+	<!--角色映射 -->
+	<resultMap type="com.bjsxt.pojo.Role" id="roleResult">
+		<id column="roleid" property="roleid" />
+		<result column="rolename" property="rolename" />
+	</resultMap>
+	<!-- 用户映射 -->
+	<resultMap type="com.bjsxt.pojo.User" id="userResult">
+		<result column="fullname" property="fullname" />
+		<result column="identity" property="identity" />
+		<result column="username" property="username" />
+		<result column="sex" property="sex" />
+		<result column="address" property="address" />
+		<result column="phone" property="phone" />
+		<result column="userpwd" property="userpwd" />
+		<result column="roleid" property="roleid" />
+		<result column="position" property="position" />
+		<collection property="role" javaType="com.bjsxt.pojo.Role"
+			resultMap="roleResult">
+		</collection>
+	</resultMap>
+	<sql id="findUser">
+		<if test="user.username!=null and user.username!=''">
+			<bind name="user.username" value="'%'+user.username+'%'" />
+			and u.username like #{user.username}
+		</if>
+		<if test="user.fullname!=null and user.fullname!=''">
+			<bind name="user.fullname" value="'%'+user.fullname+'%'" />
+			and u.fullname like #{user.fullname}
+		</if>
+		<if test="user.identity!=null and user.identity!=''">
+			<bind name="user.identity" value="'%'+user.identity+'%'" />
+			and u.identity like #{user.identity}
+		</if>
+		<if test="user.position!=null and user.position!=''">
+			<bind name="user.position" value="'%'+user.position+'%'" />
+			and u.position like #{user.position}
+		</if>
+		<if test="user.address!=null and user.address!=''">
+			<bind name="user.username" value="'%'+user.username+'%'" />
+			and u.address like #{user.address}
+		</if>
+		<if test="user.phone!=null and user.phone!=''">
+			<bind name="user.phone" value="'%'+user.phone+'%'" />
+			and u.phone like #{user.phone}
+		</if>
+		<if test="user.sex!=null and user.sex!=''">
+			<bind name="user.sex" value="'%'+user.sex+'%'" />
+			and u.sex like #{user.sex}
+		</if> 
+		<if test="user.roleid!=null and user.roleid!=''">
+			and u.roleid=#{user.roleid}
+		</if>
+	</sql>
+	<select id="findUser" resultMap="userResult">
+		select * from users u join  roles r on r.roleid=u.roleid 
+		<where>
+			
+			<include refid="findUser" />
+			
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

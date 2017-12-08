@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<context:component-scan base-package="com.bjsxt.controller"></context:component-scan>
+
+	<!-- 启动对@AspectJ注解的支持  -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- 静态资源路径映射 -->
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/static/" mapping="/static/**"></mvc:resources>
+	<mvc:resources location="/lib/" mapping="/lib/**"></mvc:resources>
+	<mvc:resources location="/temp/" mapping="/temp/**"></mvc:resources>
+	<mvc:resources location="/files/" mapping="/files/**"></mvc:resources>
+	<mvc:resources location="/" mapping="/**"></mvc:resources>
+	
+	<!--切面-->
+     <bean id="SystemLogAspect" class="com.bjsxt.annotation.SystemLogAspect"></bean>
+     
+	
+	<!-- 拦截未登录用户 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/js/**" />
+			<mvc:exclude-mapping path="/static/**" />
+			<mvc:exclude-mapping path="/lib/**" />
+			<mvc:exclude-mapping path="/temp/**" />
+			<mvc:exclude-mapping path="/files/**" />
+			<bean id="mi" class="com.bjsxt.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	 <!-- 文件上传解析器 -->
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="defaultEncoding" value="UTF-8"></property>
+    	<!--文件最大容量   单位 bytes-->
+    	<property name="maxUploadSize" value="1024000"></property>
+    </bean>
+
+  
+
+</beans>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.ChecktableMapper">
+	
+	
+	<sql id="findCustomer">
+		<if test="checktable.checkid!=null and checktable.checkid!=''">
+			<bind name="checktable.checkid" value="'%'+checktable.checkid+'%'" />
+			and u.checkid like #{checktable.checkid}
+		</if>
+		
+		<if test="checktable.checkdate!=null and checktable.checkdate!=''">
+			
+			and u.checkdate like #{checktable.checkdate}
+		</if>
+		<if test="checktable.field!=null and checktable.field!=''">
+			<bind name="checktable.field" value="'%'+checktable.field+'%'" />
+			and u.field like #{checktable.field}
+		</if>
+		<if test="checktable.problem!=null and checktable.problem!=''">
+			<bind name="checktable.checktablename" value="'%'+checktable.checktablename+'%'" />
+			and u.problem like #{checktable.problem}
+		</if>
+		<if test="checktable.paying!=null and checktable.paying!=''">
+			<bind name="checktable.paying" value="'%'+checktable.paying+'%'" />
+			and u.paying like #{checktable.paying}
+		</if>
+		<if test="checktable.username!=null and checktable.username!=''">
+			<bind name="checktable.username" value="'%'+checktable.username+'%'" />
+			and u.username like #{checktable.username}
+		</if> 
+		<if test="checktable.rentid!=null and checktable.rentid!=''">
+			<bind name="checktable.rentid" value="'%'+checktable.rentid+'%'" />
+			and u.rentid like #{checktable.rentid}
+		</if> 
+		
+	</sql>
+	<select id="findChecktable" resultType="com.bjsxt.pojo.Checktable">
+		select * from checktable u 
+		<where>
+			
+			<include refid="findCustomer" />
+			
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

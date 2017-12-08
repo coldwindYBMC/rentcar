@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjsxt.mapper.Role_menusMapper">
+	<insert id="insRole_menus">
+		insert into roles_menus values
+		<foreach collection="list" index="index" item="rm" separator=",">
+		 	(#{rm.roleid},#{rm.menuid})
+		</foreach>
+	</insert>
+</mapper>

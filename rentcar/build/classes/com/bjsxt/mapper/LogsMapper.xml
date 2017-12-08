@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.LogsMapper">
+	
+	
+	<sql id="findLogs">
+		<if test="logs.id!=null and logs.id!=''">
+			<bind name="logs.id" value="'%'+logs.id+'%'" />
+			and u.id like #{logs.id}
+		</if>
+		
+		<if test="logs.username!=null and logs.username!=''">
+			<bind name="logs.username" value="'%'+logs.username+'%'" />
+			and u.username like #{logs.username}
+		</if>
+		<if test="logs.action!=null and logs.action!=''">
+			<bind name="logs.action" value="'%'+logs.action+'%'" />
+			and u.action like #{logs.action}
+		</if>
+		<if test="logs.actiontime!=null and logs.actiontime!=''">
+			<bind name="logs.actiontime" value="logs.actiontime+'%'" />
+			and u.actiontime like #{logs.actiontime}
+		</if>
+		<if test="logs.flag!=null and logs.flag!=''">
+			<bind name="logs.flag" value="'%'+logs.flag+'%'" />
+			and u.flag=#{logs.flag}
+		</if>
+		
+		
+	</sql>
+	<select id="findLogs" resultType="com.bjsxt.pojo.Logs">
+		select * from logs u 
+		<where>
+			
+			<include refid="findLogs" />
+			
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

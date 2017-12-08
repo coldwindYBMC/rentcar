@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.RoleMapper">
+
+
+
+<!-- <resultMap type="com.bjsxt.pojo.User" id="userResult">
+		<result column="fullname" property="fullname" />
+		<result column="identity" property="identity" />
+		<result column="username" property="username" />
+		<result column="sex" property="sex" />
+		<result column="address" property="address" />
+		<result column="phone" property="phone" />
+		<result column="userpwd" property="userpwd" />
+		<result column="roleid" property="roleid" />
+		<result column="position" property="position" />
+		<collection property="role" javaType="com.bjsxt.pojo.Role"
+			resultMap="roleResult">
+		</collection>
+	</resultMap> -->
+	<!--角色映射 -->
+	<sql id="findRoles">
+		<if test="rolename!=null and rolename!=''">
+			<bind name="rolename" value="'%'+rolename+'%'" />
+			and u.rolename like #{rolename}
+		</if>
+		<if test="roleid!=null and roleid!=''">
+			and u.roleid = #{roleid}
+		</if>
+	</sql>
+	<select id="selRole"  resultType="com.bjsxt.pojo.Role">
+		select * from roles u 
+		<where>
+			<include refid="findRoles" />
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>

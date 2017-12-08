@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口对象 -->
+
+<mapper namespace="com.bjsxt.mapper.CustomerMapper">
+	
+	
+	<sql id="findCustomer">
+		<if test="customer.custname!=null and customer.custname!=''">
+			<bind name="customer.custname" value="'%'+customer.custname+'%'" />
+			and u.custname like #{customer.custname}
+		</if>
+		
+		<if test="customer.identity!=null and customer.identity!=''">
+			<bind name="customer.identity" value="'%'+customer.identity+'%'" />
+			and u.identity like #{customer.identity}
+		</if>
+		<if test="customer.career!=null and customer.career!=''">
+			<bind name="customer.career" value="'%'+customer.career+'%'" />
+			and u.career like #{customer.career}
+		</if>
+		<if test="customer.address!=null and customer.address!=''">
+			<bind name="customer.customername" value="'%'+customer.customername+'%'" />
+			and u.address like #{customer.address}
+		</if>
+		<if test="customer.phone!=null and customer.phone!=''">
+			<bind name="customer.phone" value="'%'+customer.phone+'%'" />
+			and u.phone like #{customer.phone}
+		</if>
+		<if test="customer.sex!=null and customer.sex!=''">
+			<bind name="customer.sex" value="'%'+customer.sex+'%'" />
+			and u.sex like #{customer.sex}
+		</if> 
+		
+	</sql>
+	<select id="findCustomer" resultType="com.bjsxt.pojo.Customer">
+		select * from customers u 
+		<where>
+			
+			<include refid="findCustomer" />
+			
+		</where>
+		<!-- limit #{index} ,#{size} -->
+	</select>
+
+
+</mapper>
